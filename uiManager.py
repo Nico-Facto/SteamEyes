@@ -9,6 +9,8 @@ import seaborn as sns
 import time
 
 def display_ui():
+    st.text("""
+    TEST""")
     im_1 = Image.open('ress/Capture7456.PNG')
     st.image(im_1,use_column_width=True)
     st.subheader("Artificial intelligence try to predict user interaction with your app on the store")
