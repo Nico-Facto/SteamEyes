@@ -9,14 +9,12 @@ import seaborn as sns
 import time
 
 def display_ui():
-    # st.title('Steam User Succes Predictor')
     im_1 = Image.open('ress/Capture7456.PNG')
     st.image(im_1,use_column_width=True)
     st.subheader("Artificial intelligence try to predict user interaction with your app on the store")
     im_2 = Image.open('ress/scr.PNG')
     st.image(im_2,use_column_width=True)
-    # im_1 = Image.open('ress/scr1.PNG')
-    # st.image(im_1,use_column_width=True)
+
 
 def canvas_button():
     global ai_button
@@ -28,7 +26,7 @@ def canvas_button():
 
 def set_databrick():
     global df
-    df = load('../Model/databrick_v1.joblib')
+    df = load('Model/databrick_v1.joblib')
     global nb_data
     nb_data = len(df['Dev_team'])
 

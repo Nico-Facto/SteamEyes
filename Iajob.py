@@ -9,10 +9,10 @@ class Iajob():
 
     def __init__(self,arr_input):
         self.arr_input = arr_input
-        self.databrick = load('../Model/databrick_v1.joblib')
-        self.model_f1 = load('../Model/scv_f1.joblib')
-        self.model_f2 = load('../Model/gbc_f2.joblib')
-        self.model_f3 = load('../Model/svr_f3.joblib')
+        self.databrick = load('Model/databrick_v1.joblib')
+        self.model_f1 = load('Model/scv_f1.joblib')
+        self.model_f2 = load('Model/gbc_f2.joblib')
+        self.model_f3 = load('Model/svr_f3.joblib')
         self.ph1_succes = True
         self.ph2_succes = True
         self.probas_disp_f1 = 0.0

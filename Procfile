@@ -1,1 +1,1 @@
-web: gunicorn && App/streamlit run uiManager.py
+web: gunicorn && streamlit run uiManager.py
