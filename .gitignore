@@ -1,3 +1,11 @@
+ScrapingData/
+Data/
+A_Rapport/
+Notebook/
+
+App/ress/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
