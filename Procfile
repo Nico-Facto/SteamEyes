@@ -1,1 +1,1 @@
-web: gunicorn  app:streamlit run uiManager.py
+web: sh setup.sh && streamlit run uiManager.py
