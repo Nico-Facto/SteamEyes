@@ -3,9 +3,6 @@ Data/
 A_Rapport/
 Notebook/
 
-ress/
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
