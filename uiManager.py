@@ -12,7 +12,7 @@ def display_ui():
     im_1 = Image.open('ress/Capture7456.PNG')
     st.image(im_1,use_column_width=True)
     st.subheader("Artificial intelligence try to predict user interaction with your application on Steam store.")
-    im_2 = Image.open('ress/scr.PNG')
+    im_2 = Image.open('ress/scr1.PNG')
     st.image(im_2,use_column_width=True)
 
 
