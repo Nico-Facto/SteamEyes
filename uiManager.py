@@ -18,9 +18,8 @@ st.markdown('<style>h1{background: linear-gradient(to left, #ffffff, #C7E0F1);}<
 
 
 def display_ui():
-    cola, colb = st.beta_columns(2)
     im_1 = Image.open('ress/Capture7456.PNG')
-    cola.image(im_1,use_column_width=False, clamp=False)
+    st.image(im_1,use_column_width=False, clamp=False)
     st.sidebar.title("  Artificial Intelligence")
     st.sidebar.subheader("Predict user interaction with your application on Steam store")
     # im_2 = Image.open('ress/scr1.PNG')
