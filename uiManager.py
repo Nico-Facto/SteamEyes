@@ -8,21 +8,32 @@ import seaborn as sns
 
 import time
 
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.set_page_config(page_title="SteamEyes", layout="wide", page_icon ='ress/Favico.PNG', initial_sidebar_state="expanded")
+
+st.markdown('<style>.css-1aumxhk {background: linear-gradient(to right, #ffffff, #C7E0F1);}</style>',unsafe_allow_html=True)
+st.markdown('<style>h1{background: linear-gradient(to left, #ffffff, #C7E0F1);}</style>',unsafe_allow_html=True)
+# st.markdown('<style>.css-j8zjtb<{color: #7B49BE);}</style>',unsafe_allow_html=True)
+
+
 def display_ui():
+    cola, colb = st.beta_columns(2)
     im_1 = Image.open('ress/Capture7456.PNG')
-    st.image(im_1,use_column_width=True)
-    st.subheader("Artificial intelligence try to predict user interaction with your application on Steam store.")
-    im_2 = Image.open('ress/scr1.PNG')
-    st.image(im_2,use_column_width=True)
+    cola.image(im_1,use_column_width=False, clamp=False)
+    st.sidebar.title("  Artificial Intelligence")
+    st.sidebar.subheader("Predict user interaction with your application on Steam store")
+    # im_2 = Image.open('ress/scr1.PNG')
+    # colb.image(im_2,use_column_width=False, clamp=False)
 
 
 def canvas_button():
     global ai_button
-    ai_button = st.button("Ai Job")
+    ai_button = st.sidebar.button("Ai Job")
     global dash_button
-    dash_button = st.button("Dashboard Data ")
+    dash_button = st.sidebar.button("Dashboard Data ")
     global info_button
-    info_button = st.button("Information")
+    info_button = st.sidebar.button("Information")
 
 def set_databrick():
     global df
@@ -50,9 +61,15 @@ def display_dahboard():
        'Has_adult_content', 'Single_player', 'Coop_player',
        'Multi_player','Early_Access']
 
+    colA , colB, colC = st.beta_columns(3)
+    count = 0
     for i in col_bool:
         sns.countplot(df[i])
-        st.pyplot(figsize=(5,5))     
+        if count % 2 == 0:
+            colA.pyplot(figsize=(5,5))
+        else:
+            colB.pyplot(figsize=(5,5))
+        count +=1     
 
 def display_info():
     st.title("Information")
@@ -68,86 +85,96 @@ def display_info():
     ! This application is not affilied with Steam !""")
 
 def input_output():
-    app_ = st.radio("What's kind of application ?",
+    colA, colB, colC = st.beta_columns(3)
+
+    app_ = colA.radio("What's kind of application ?",
                     ('Game', 'Legacy Media', 'Application', 'Demo', 'Config','Downloadable Content', 'Tool', 'Music', 'Video','Series', 'Hardware','Unknown'))
 
-    dev_ = st.text_area('Set your developer Name (Use the same name as it usually appears on steam)')
-    publisher_ = st.text_area('Set the publisher Name (Use the same name as it usually appears on steam)')
+    dev_ = colA.number_input('Set number of game published on steam by developer team', value=0)
+    publisher_ = colA.number_input('Set number of game published on steam by publisher team', value=0)
 
-    os_ = st.multiselect('What operating systems are supported',
+    os_ = colA.multiselect('What operating systems are supported',
                             ['Windows', 'Linux', 'Mac', 'Steam Remote'],
                             ['Windows','Linux', 'Mac', 'Steam Remote'])
 
-    Prymary_ = st.radio("What's prymary genre you will selected on steam ?",
+    price_ = colA.number_input("Previous Price")
+
+    Self_editor = colA.checkbox("Self Editor")
+    if Self_editor:
+        editor_self_ = 1
+    else:
+        editor_self_ = 0
+
+    Prymary_ = colB.radio("What's prymary genre you will selected on steam ?",
                     ('Action', 'Free to Play', 'Strategy', 'Indie', 'RPG',
-        'Video Production', 'Casual', 'Simulation',
-        'Racing', 'Adventure', 'Sports', 'Massively Multiplayer',
-        'Animation & Modeling', 'Early Access', 'Utilities',
-        'Audio Production', 'Design & Illustration', 'Photo Editing',
-        'Violent', 'Web Publishing', 'Education', 'Game Development',
-        'Software Training', 'Accounting', 'Gore','Nudity'
-        'Sexual Content','Unknown Genre'))
+                    'Video Production', 'Casual', 'Simulation',
+                    'Racing', 'Adventure', 'Sports', 'Massively Multiplayer',
+                    'Animation & Modeling', 'Early Access', 'Utilities',
+                    'Audio Production', 'Design & Illustration', 'Photo Editing',
+                    'Violent', 'Web Publishing', 'Education', 'Game Development',
+                    'Software Training', 'Accounting', 'Gore','Nudity'
+                    'Sexual Content','Unknown Genre'))
 
-    language_ = st.text_area('How many language your application support ? (Example : English Interface + Audio + Sub-titles = 3)')
-    achiev_ = st.text_area('How many achievements your application has ? (Example : 17)')
+    language_ = colC.number_input('How many language your application support ? (Example : English Interface + Audio + Sub-titles = 3)', value=0)
+    achiev_ = colC.number_input('How many achievements your application has ? (Example : 17)', value=0)
 
-    st.subheader('Check the boxes that your application contains')
+    colC.subheader('Check the boxes that your application contains')
 
-    Controller_support = st.checkbox("Controller support")
+    Controller_support = colC.checkbox("Controller support")
     if Controller_support:
         Controller_ = 1
     else:
         Controller_ = 0
 
-    Is_free_app = st.checkbox("Free to play")
+    Is_free_app = colC.checkbox("Free to play")
     if Is_free_app:
         Is_free_ = 1
     else:
         Is_free_ = 0
 
-    Workshop_visible = st.checkbox("Workshop visible")
+    Workshop_visible = colC.checkbox("Workshop visible")
     if Workshop_visible:
         Workshop_ = 1
     else:
         Workshop_ = 0  
 
-    Only_vr_support = st.checkbox("Only vr support")
+    Only_vr_support = colC.checkbox("Only vr support")
     if Only_vr_support:
         Only_vr_ = 1
     else:
         Only_vr_ = 0  
 
-    Vr_support = st.checkbox("Vr support")
+    Vr_support = colC.checkbox("Vr support")
     if Vr_support:
         supportVr_ = 1
     else:
         supportVr_ = 0  
 
-    Has_adult_content = st.checkbox("Has adult content")
+    Has_adult_content = colC.checkbox("Has adult content")
     if Has_adult_content:
         adult_ = 1
     else:
         adult_ = 0  
 
-    Single_player = st.checkbox("Single player")
+    Single_player = colC.checkbox("Single player")
     if Single_player:
         Single_ = 1
     else:
         Single_ = 0  
 
-    Coop_player = st.checkbox("Coop player")
+    Coop_player = colC.checkbox("Coop player")
     if Coop_player:
         Coop_ = 1
     else:
         Coop_ = 0  
 
-    Multi_player = st.checkbox("Multi player")
+    Multi_player = colC.checkbox("Multi player")
     if Multi_player:
         Multy_ = 1
     else:
         Multy_ = 0  
 
-    Early_Access = st.checkbox("Early Access")
+    Early_Access = colC.checkbox("Early Access")
     if Early_Access:
         Early_ = 1
     else:
@@ -160,6 +187,7 @@ def input_output():
             "App_cat": [f'{app_}'],
             "Dev_team": [f'{dev_}'],
             "Publisher_team": [f'{publisher_}'],
+            "Self_editor" : [editor_self_],
             "Os_supported": [len(os_)],
             "Prymary_genre": [f'{Prymary_}'],
             "Controller_support": [Controller_],
@@ -173,24 +201,28 @@ def input_output():
             "Single_player": [Single_],
             "Coop_player": [Coop_],
             "Multi_player": [Multy_],
+            "Price": [price_],
             "Early_Access": [Early_],
             }
 
+            st.dataframe(input_data)
             job = Iajob(input_data)
             job.predict_job()
 
+            colaf , colbf, colcf = st.beta_columns(3)
             try:
                 ph1_succes, probas_disp_f1, ph2_succes, probas_disp_f2, res= job.display_on_app()
-                ph1_succes = ph1_succes ## just for clean linter in vscode
-                st.write("Review = Yes", " -- Trust : ", probas_disp_f1, " %")
+                # ph1_succes, probas_disp_f1, = job.display_on_app()
+
+                colaf.write(f"Review = Yes  -- Trust : {probas_disp_f1} %")
                 if ph2_succes:
-                    st.write("Positive", " -- Trust : ", probas_disp_f2, " %")
+                    colbf.write(f"Positive -- Trust : {probas_disp_f2} %")
                 else:
-                    st.write("Negative", " -- Trust : ", probas_disp_f2, " %")    
-                st.write("Number of review estimated : ",res)
+                    colbf.write("Negative", " -- Trust : ", probas_disp_f2, " %")    
+                colcf.write(f"Number of review estimated : {res}")
             except : 
                 ph1_succes, probas_disp_f1 = job.display_on_app()
-                st.write("Review = No" , " -- Trust : ", probas_disp_f1, " %")
+                colaf.write(f"Review = No  -- Trust : {probas_disp_f1} %")
 
         except ValueError as identifier:
             st.warning("Error in your input : ")

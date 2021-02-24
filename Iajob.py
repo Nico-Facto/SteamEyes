@@ -10,8 +10,8 @@ class Iajob():
     def __init__(self,arr_input):
         self.arr_input = arr_input
         self.databrick = load('Model/databrick_v1.joblib')
-        self.model_f1 = load('Model/scv_f1.joblib')
-        self.model_f2 = load('Model/gbc_f2.joblib')
+        self.model_f1 = load('Model/gbc_f1.joblib')
+        self.model_f2 = load('Model/gbc_ph2.joblib')
         self.model_f3 = load('Model/svr_f3.joblib')
         self.ph1_succes = True
         self.ph2_succes = True
@@ -19,11 +19,12 @@ class Iajob():
         self.probas_disp_f2 = 0.0
         self.res = 0
 
+   
     def predict_job(self):
 
         df = pd.DataFrame(self.arr_input)
 
-        ## Data prep
+        # Data prep
         if df.loc[0,'Dev_team'] == df.loc[0,'Publisher_team']:
             df.loc[0,'Self_editor'] = 1
         else:
@@ -38,18 +39,21 @@ class Iajob():
 
         ## call pipelines
         pred_f1 = self.model_f1.predict(df)
-        proba_pred_f1 = self.model_f1.predict_proba(df)
+        try:
+            proba_pred_f1 = self.model_f1.predict_proba(df)
         
-        if pred_f1[0] == 0:
-            self.ph1_succes = False
-            self.probas_disp_f1 = round(proba_pred_f1[0][0]*100,2)
-            print(self.ph1_succes)
-            print("Confiance : ", self.probas_disp_f1, " %")
-        else:
-            self.ph1_succes = True
-            self.probas_disp_f1 = round(proba_pred_f1[0][1]*100,2)
-            print(self.ph1_succes)
-            print("Confiance : ", self.probas_disp_f1, " %")
+            if pred_f1[0] == 0:
+                self.ph1_succes = False
+                self.probas_disp_f1 = round(proba_pred_f1[0][0]*100,2)
+                print(self.ph1_succes)
+                print("Confiance : ", self.probas_disp_f1, " %")
+            else:
+                self.ph1_succes = True
+                self.probas_disp_f1 = round(proba_pred_f1[0][1]*100,2)
+                print(self.ph1_succes)
+                print("Confiance : ", self.probas_disp_f1, " %")
+        except Exception as e:
+            print(e)
         
         if pred_f1 != 0:
             
