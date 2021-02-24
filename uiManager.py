@@ -9,7 +9,7 @@ import seaborn as sns
 import time
 
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+# st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(page_title="SteamEyes", layout="wide", page_icon ='ress/Favico.PNG', initial_sidebar_state="expanded")
 
 st.markdown('<style>.css-1aumxhk {background: linear-gradient(to right, #ffffff, #C7E0F1);}</style>',unsafe_allow_html=True)
