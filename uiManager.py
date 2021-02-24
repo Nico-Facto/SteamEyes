@@ -9,7 +9,7 @@ import seaborn as sns
 import time
 
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+# st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(page_title="SteamEyes", layout="wide", page_icon ='ress/Favico.PNG', initial_sidebar_state="expanded")
 
 st.markdown('<style>.css-1aumxhk {background: linear-gradient(to right, #ffffff, #C7E0F1);}</style>',unsafe_allow_html=True)
@@ -63,11 +63,12 @@ def display_dahboard():
     colA , colB, colC = st.beta_columns(3)
     count = 0
     for i in col_bool:
+        fig, ax = plt.subplots()
         sns.countplot(df[i])
         if count % 2 == 0:
-            colA.pyplot(figsize=(5,5))
+            colA.pyplot(fig)
         else:
-            colB.pyplot(figsize=(5,5))
+            colB.pyplot(fig)
         count +=1     
 
 def display_info():
