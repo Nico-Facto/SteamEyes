@@ -2,12 +2,14 @@ import streamlit as st
 from PIL import Image
 from joblib import load
 from Iajob import Iajob
-
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
-import time
+import sys
+import os
 
+from lib.SqlCo import Sqldd
 
 # st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(page_title="SteamEyes", layout="wide", page_icon ='ress/Favico.PNG', initial_sidebar_state="expanded")
@@ -16,14 +18,22 @@ st.markdown('<style>.css-1aumxhk {background: linear-gradient(to right, #ffffff,
 st.markdown('<style>h1{background: linear-gradient(to left, #ffffff, #C7E0F1);}</style>',unsafe_allow_html=True)
 # st.markdown('<style>.css-j8zjtb<{color: #7B49BE);}</style>',unsafe_allow_html=True)
 
+@st.cache
+def get_data():
+    my_bdd = Sqldd()
+    cnx, cursor = my_bdd.get_bdd_co()
+    global df_globale
+    df_globale = pd.read_sql('SELECT * FROM app_hover_public', con=cnx)
+    cnx.close()
+    cursor.close()
+
+
 
 def display_ui():
     im_1 = Image.open('ress/Capture7456.PNG')
     st.image(im_1,use_column_width=False, clamp=False)
-    st.sidebar.title("  Artificial Intelligence")
+    st.sidebar.title("Artificial Intelligence")
     st.sidebar.subheader("Predict user interaction with your application on Steam store")
-    # im_2 = Image.open('ress/scr1.PNG')
-    # colb.image(im_2,use_column_width=False, clamp=False)
 
 
 def canvas_button():
@@ -90,8 +100,8 @@ def input_output():
     app_ = colA.radio("What's kind of application ?",
                     ('Game', 'Legacy Media', 'Application', 'Demo', 'Config','Downloadable Content', 'Tool', 'Music', 'Video','Series', 'Hardware','Unknown'))
 
-    dev_ = colA.number_input('Set number of game published on steam by developer team', value=0)
-    publisher_ = colA.number_input('Set number of game published on steam by publisher team', value=0)
+    dev_ = colA.number_input('Set number of game published on steam by developer team')
+    publisher_ = colA.number_input('Set number of game published on steam by publisher team')
 
     os_ = colA.multiselect('What operating systems are supported',
                             ['Windows', 'Linux', 'Mac', 'Steam Remote'],
@@ -185,15 +195,11 @@ def input_output():
         try:
             input_data = {
             "App_cat": [f'{app_}'],
-            "Dev_team": [f'{dev_}'],
-            "Publisher_team": [f'{publisher_}'],
-            "Self_editor" : [editor_self_],
             "Os_supported": [len(os_)],
             "Prymary_genre": [f'{Prymary_}'],
             "Controller_support": [Controller_],
             "Is_free_app": [Is_free_],
             "Nb_language": [int(language_)],
-            "Workshop_visible": [Workshop_],
             "Only_vr_support": [Only_vr_],
             "Vr_support": [supportVr_],
             "Has_adult_content": [adult_],
@@ -201,8 +207,12 @@ def input_output():
             "Single_player": [Single_],
             "Coop_player": [Coop_],
             "Multi_player": [Multy_],
-            "Price": [price_],
             "Early_Access": [Early_],
+            "Price": [price_],
+            "Workshop_visible": [Workshop_],
+            "exp_dev_team": [f'{dev_}'],
+            "exp_publish_team": [f'{publisher_}'],
+            "Self_editor" : [editor_self_],
             }
 
             st.dataframe(input_data)
@@ -212,13 +222,11 @@ def input_output():
             colaf , colbf, colcf = st.beta_columns(3)
             try:
                 ph1_succes, probas_disp_f1, ph2_succes, probas_disp_f2, res= job.display_on_app()
-                # ph1_succes, probas_disp_f1, = job.display_on_app()
-
                 colaf.write(f"Review = Yes  -- Trust : {probas_disp_f1} %")
                 if ph2_succes:
                     colbf.write(f"Positive -- Trust : {probas_disp_f2} %")
                 else:
-                    colbf.write("Negative", " -- Trust : ", probas_disp_f2, " %")    
+                    colbf.write(f"Negative -- Trust : {probas_disp_f2} %")    
                 colcf.write(f"Number of review estimated : {res}")
             except : 
                 ph1_succes, probas_disp_f1 = job.display_on_app()
@@ -233,6 +241,7 @@ def input_output():
 def void_update():
     display_ui()
     canvas_button()
+    # get_data()
     set_databrick()
 
     if info_button:
