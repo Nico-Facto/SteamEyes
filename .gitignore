@@ -3,6 +3,7 @@ Data/
 A_Rapport/
 NoteBook/Modelization.ipynb
 sec_local.py
+lib/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
