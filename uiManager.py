@@ -70,6 +70,7 @@ def display_dahboard():
        'Has_adult_content', 'Single_player', 'Coop_player',
        'Multi_player','Early_Access']
 
+    st.subheader("Repartion des categories par classe")
     colA , colB, colC = st.beta_columns(3)
     count = 0
     for i in col_bool:
