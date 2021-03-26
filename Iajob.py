@@ -11,7 +11,6 @@ class Iajob():
 
     def __init__(self,arr_input):
         self.arr_input = arr_input
-        # self.databrick = load('Model/databrick_v1.joblib')
         self.model_f1 = load('Model/gbc_f1.joblib')
         self.model_f2 = load('Model/gbc_ph2.joblib')
         self.model_f3 = load('Model/svr_f3.joblib')
@@ -25,19 +24,6 @@ class Iajob():
     def predict_job(self):
 
         df = pd.DataFrame(self.arr_input)
-
-        # # Data prep
-        # if df.loc[0,'Dev_team'] == df.loc[0,'Publisher_team']:
-        #     df.loc[0,'Self_editor'] = 1
-        # else:
-        #     df.loc[0,'Self_editor'] = 0
-            
-        # dev_count = len(self.databrick[self.databrick['Dev_team'].isin([df.loc[0,'Dev_team']])])
-        # publish_count = len(self.databrick[self.databrick['Publisher_team'].isin([df.loc[0,'Publisher_team']])])
-        
-        # df.loc[0,'exp_dev_team'] = dev_count
-        # df.loc[0,'exp_publish_team'] = publish_count
-        # df = df.drop(columns=["Dev_team","Publisher_team"])
 
         ## call pipelines
         pred_f1 = self.model_f1.predict(df)

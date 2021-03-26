@@ -5,6 +5,7 @@ from Iajob import Iajob
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import plotly.express as px
 
 import sys
 import os
@@ -22,10 +23,13 @@ st.markdown('<style>h1{background: linear-gradient(to left, #ffffff, #C7E0F1);}<
 def get_data():
     my_bdd = Sqldd()
     cnx, cursor = my_bdd.get_bdd_co()
-    global df_globale
-    df_globale = pd.read_sql('SELECT * FROM app_hover_public', con=cnx)
+    # global df
+    df = pd.read_sql('SELECT * FROM app_hover_public', con=cnx)
     cnx.close()
     cursor.close()
+    # global nb_data
+    nb_data = len(df['Dev_team'])
+    return df, nb_data
 
 
 
@@ -46,9 +50,20 @@ def canvas_button():
 
 def set_databrick():
     global df
-    df = load('Model/databrick_v1.joblib')
+    df = load('Model/databrick_v2.joblib')
     global nb_data
     nb_data = len(df['Dev_team'])
+   
+def parrallel_plot(df):
+    pp_df = pd.DataFrame(df, columns=['status_reco','Price', 'Nb_language','Nb_achievements' ])
+
+    pp_df = pp_df.drop(pp_df[pp_df.Price > 300].index)
+    pp_df = pp_df.drop(pp_df[pp_df.Nb_achievements > 6000].index)
+    fig = px.parallel_coordinates(pp_df, color="status_reco",
+                                 color_continuous_scale="Inferno",
+                                 color_continuous_midpoint=2)
+    return fig
+
 
 def display_dahboard():
     st.subheader(f"Some observations on {nb_data} applications")
@@ -70,7 +85,13 @@ def display_dahboard():
        'Has_adult_content', 'Single_player', 'Coop_player',
        'Multi_player','Early_Access']
 
-    st.subheader("Repartion des categories par classe")
+    st.subheader("Repartition des categories par classe")
+    st.text("0 : No review")
+    st.text("1 : Got review")
+
+    fig = parrallel_plot(df)
+    st.plotly_chart(fig)
+
     colA , colB, colC = st.beta_columns(3)
     count = 0
     for i in col_bool:
@@ -242,7 +263,8 @@ def input_output():
 def void_update():
     display_ui()
     canvas_button()
-    # get_data()
+
+    # df, nb_data = get_data()
     set_databrick()
 
     if info_button:
