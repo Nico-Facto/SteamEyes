@@ -122,8 +122,8 @@ def input_output():
     app_ = colA.radio("What's kind of application ?",
                     ('Game', 'Legacy Media', 'Application', 'Demo', 'Config','Downloadable Content', 'Tool', 'Music', 'Video','Series', 'Hardware','Unknown'))
 
-    dev_ = colA.number_input('Set number of game published on steam by developer team')
-    publisher_ = colA.number_input('Set number of game published on steam by publisher team')
+    dev_ = colA.number_input('Set number of game published on steam by developer team', min_value=1, value=1)
+    publisher_ = colA.number_input('Set number of game published on steam by publisher team',min_value=1, value=1)
 
     os_ = colA.multiselect('What operating systems are supported',
                             ['Windows', 'Linux', 'Mac', 'Steam Remote'],
@@ -147,7 +147,7 @@ def input_output():
                     'Software Training', 'Accounting', 'Gore','Nudity'
                     'Sexual Content','Unknown Genre'))
 
-    language_ = colC.number_input('How many language your application support ? (Example : English Interface + Audio + Sub-titles = 3)', value=0)
+    language_ = colC.number_input('How many language your application support ? (Example : English Interface + Audio + Sub-titles = 3)', min_value=1, value=1)
     achiev_ = colC.number_input('How many achievements your application has ? (Example : 17)', value=0)
 
     colC.subheader('Check the boxes that your application contains')
