@@ -85,7 +85,7 @@ def display_dahboard():
        'Has_adult_content', 'Single_player', 'Coop_player',
        'Multi_player','Early_Access']
 
-    st.subheader("Repartition des categories par classe")
+    st.subheader("Breakdown of categories by class")
     st.text("0 : No review")
     st.text("1 : Got review")
 
@@ -96,7 +96,14 @@ def display_dahboard():
     count = 0
     for i in col_bool:
         fig, ax = plt.subplots()
-        sns.countplot(df[i])
+        plt.title(f"Number of presence or not for {i}")
+        sns.countplot(df[i], 
+                   facecolor=(0.82, 0.82, 0.12, 0.33),
+                   linewidth=5,
+                   edgecolor=sns.color_palette("dark", 3),
+                   )
+        labels = ['Not Present', 'Present']
+        ax.set_xticklabels(labels)
         if count % 2 == 0:
             colA.pyplot(fig)
         else:
