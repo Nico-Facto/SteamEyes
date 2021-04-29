@@ -127,10 +127,16 @@ def input_output():
     colA, colB, colC = st.beta_columns(3)
 
     app_ = colA.radio("What's kind of application ?",
-                    ('Game', 'Legacy Media', 'Application', 'Demo', 'Config','Downloadable Content', 'Tool', 'Music', 'Video','Series', 'Hardware','Unknown'))
+                    ('Game', 'Demo','Downloadable Content'))
 
     dev_ = colA.number_input('Set number of game published on steam by developer team', min_value=1, value=1)
     publisher_ = colA.number_input('Set number of game published on steam by publisher team',min_value=1, value=1)
+
+    Self_editor = colA.checkbox("Self Editor")
+    if Self_editor:
+        editor_self_ = 1
+    else:
+        editor_self_ = 0
 
     os_ = colA.multiselect('What operating systems are supported',
                             ['Windows', 'Linux', 'Mac', 'Steam Remote'],
@@ -138,11 +144,7 @@ def input_output():
 
     price_ = colA.number_input("Previous Price")
 
-    Self_editor = colA.checkbox("Self Editor")
-    if Self_editor:
-        editor_self_ = 1
-    else:
-        editor_self_ = 0
+
 
     Prymary_ = colB.radio("What's prymary genre you will selected on steam ?",
                     ('Action', 'Free to Play', 'Strategy', 'Indie', 'RPG',
